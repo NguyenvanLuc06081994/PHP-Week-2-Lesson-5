@@ -1,4 +1,3 @@
 <?php
 
 
-$stack = new SplStack();
