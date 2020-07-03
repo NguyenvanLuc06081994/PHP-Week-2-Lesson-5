@@ -16,8 +16,41 @@ class Dancer
 
 class QueueDance
 {
-    protected $manQueue;
-    protected $womanQueue;
+    public $manQueue;
+    public $womanQueue;
+
+    /**
+     * @return SplQueue
+     */
+    public function getManQueue(): SplQueue
+    {
+        return $this->manQueue;
+    }
+
+    /**
+     * @param SplQueue $manQueue
+     */
+    public function setManQueue(SplQueue $manQueue): void
+    {
+        $this->manQueue = $manQueue;
+    }
+
+    /**
+     * @return SplQueue
+     */
+    public function getWomanQueue(): SplQueue
+    {
+        return $this->womanQueue;
+    }
+
+    /**
+     * @param SplQueue $womanQueue
+     */
+    public function setWomanQueue(SplQueue $womanQueue): void
+    {
+        $this->womanQueue = $womanQueue;
+    }
+
     protected $queue;
     protected $display;
 
@@ -52,6 +85,7 @@ class QueueDance
         }
     }
 
+
     public function makePair()
     {
         $arr = [];
@@ -62,26 +96,35 @@ class QueueDance
         return $this->queue;
     }
 
-    public function getRemain()
+    public function displayCouple()
     {
-        return $this->display;
+        return $this->queue;
     }
 
 }
+
 $list = new QueueDance();
-$dancer1 = $list->creatDancer();
-$dancer2 = $list->creatDancer();
-$dancer3 = $list->creatDancer();
-$dancer4 = $list->creatDancer();
-$dancer5 = $list->creatDancer();
+for ($i = 0; $i < 10; $i++) {
+    $list->addDancerToQueue($list->creatDancer());
+}
+echo "<pre>";
+print_r($list->getManQueue());
 
 echo "<pre>";
-print_r($list->getRemain());
+print_r($list->getWomanQueue());
 
-$list->addDancerToQueue($dancer1);
-$list->addDancerToQueue($dancer2);
-$list->addDancerToQueue($dancer3);
-$list->addDancerToQueue($dancer4);
-$list->addDancerToQueue($dancer5);
+$status = false;
+while (!$status) {
+    $status = $list->manQueue->isEmpty() || $list->womanQueue->isEmpty();
+    if ($status){
+        echo "wait a minute";
+    }else{
+        $list->makePair();
+    }
 
-print_r($list->makePair());
+}
+echo "<pre>";
+print_r($list->displayCouple());
+
+
+
