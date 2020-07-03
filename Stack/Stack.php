@@ -28,36 +28,31 @@ class Stack123
 
     public function result()
     {
-        $left = [];
-        $right = [];
-        $status = false;
-        while (!$status) {
-            $status = $this->rightSymbol == null || $this->leftSymbol == null;
-            if ($status) {
-                echo "empty";
-            }else{
-                array_push($left,$this->rightSymbol->shift());
-                array_push($right, $this->leftSymbol->shift());
-            }
 
-        }
-
-        for ($i = 0; $i < count($left); $i++) {
-            if ($left[$i] . $right[$i] == "()") {
-                return true;
-            } else {
-                return false;
-            }
-        }
     }
 
     public function checkStatus()
     {
-        $status = $this->leftSymbol == null || $this->rightSymbol == null;
-        if ($status) {
+        if ($this->rightSymbol->count() !== $this->leftSymbol->count()) {
             return false;
         } else {
-            $this->result();
+            $left = [];
+            $right = [];
+            $status = false;
+            while (!$status) {
+                $status = $this->leftSymbol->isEmpty() || $this->rightSymbol->isEmpty();
+                if (!$status) {
+                    array_push($right, $this->rightSymbol->pop());
+                    array_push($left, $this->leftSymbol->pop());
+                }
+            }
+            for ($j = 0; $j < count($left); $j++) {
+                if ($left[$j] . $right[$j] == "()") {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         }
     }
 
@@ -74,7 +69,7 @@ class Stack123
 }
 
 $myStack = new Stack123();
-$myStack->pushSymbol("(((abc)))");
+$myStack->pushSymbol("(–b+(b^2–4*a*c)^(0.5/ 2*a))");
 
 echo "<pre>";
 print_r($myStack->getLeftSymbol());
@@ -83,3 +78,4 @@ echo "<pre>";
 print_r($myStack->getRightSymbol());
 
 var_dump($myStack->checkStatus());
+
